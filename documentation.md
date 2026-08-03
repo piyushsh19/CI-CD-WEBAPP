@@ -102,3 +102,65 @@ git clone git@github.com:YOUR_USERNAME/YOUR_REPO.git
 Example:
 
 git clone git@github.com:PiyushSharma/MyAIProject.git
+
+git config --global user.name "enter your name"
+git config --global user.email enter your email address
+
+git diff --staged
+
+Day 3 - Secure Packages with CodeArtifact
+CodeArtifact is a secure, central place to store all your software packages. When you're building an application, you typically use dozens of external packages or libraries - things other developers have created that you don't want to build from scratch.
+
+An artifact repository gives you a consistent, reliable place to store and retrieve these components. This gives you three big benefits:
+
+
+
+
+
+1️⃣ Security: Everyone in a team retrieves packages from a secure repository (CodeArtifact), instead of downloading from unsafe sources on the internet (hello, security risks)!
+
+
+
+2️⃣ Reliability: If public package websites go down, you have backups in your CodeArtifact repository.
+
+
+
+3️⃣ Control: Your team can easily share and use the same versions of packages, instead of everyone working with a different version of the same package.
+
+
+💡 What is an IAM role?
+An IAM role is like a set of permissions that you can assign to your AWS resources.
+
+For our project, we're creating an IAM role specifically for an EC2 instance to get CodeArtifact access, but roles can grant permissions to any AWS service.
+
+
+💡 What's the difference between a policy and a role?
+Think of a policy as the actual list of permissions - it's a document that specifies exactly what actions are allowed or denied on which AWS resources. For example, "allow reading from this S3 bucket" or "allow publishing to CodeArtifact."
+
+A role is the container that holds these policies and can be assumed by users, applications, or AWS services. You attach policies to roles, then assign the role to whoever needs those permissions.
+
+This separation is powerful because:
+
+
+
+
+
+You can attach the same policy to multiple roles
+
+
+
+A role can have multiple policies attached
+
+
+
+You can modify a policy once and affect all roles using it
+
+
+
+Roles can be assumed temporarily, while policies define the permanent permission boundaries
+
+It's like the difference between writing down rules (policies) and creating a job position (role) that follows those rules. The position can be filled by different people or services, but the rules remain consistent.
+
+"sts:AWSServiceName": "codeartifact.amazonaws.com": This condition ensures that the sts:GetServiceBearerToken action is only allowed when the AWS service name is codeartifact.amazonaws.com. This is a security measure to restrict the use of this STS action specifically for CodeArtifact.
+
+[Important] an IAM policy that will allow EC2 instances to access CodeArtifact. In the next step, we'll attach this policy to an IAM role and then associate that role with your EC2 instance. 
