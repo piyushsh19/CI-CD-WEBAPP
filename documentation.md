@@ -164,3 +164,35 @@ It's like the difference between writing down rules (policies) and creating a jo
 "sts:AWSServiceName": "codeartifact.amazonaws.com": This condition ensures that the sts:GetServiceBearerToken action is only allowed when the AWS service name is codeartifact.amazonaws.com. This is a security measure to restrict the use of this STS action specifically for CodeArtifact.
 
 [Important] an IAM policy that will allow EC2 instances to access CodeArtifact. In the next step, we'll attach this policy to an IAM role and then associate that role with your EC2 instance. 
+
+DAY4 -
+💡 What is AWS CodeBuild?
+AWS CodeBuild is a fully build tool for your code. It takes your source code, compiles it, runs tests, and packages it up. Engineers love continuous integration tools like CodeBuild because you don't have to manually set up and manage any build servers yourself, and you only pay for the compute time you use for building your projects (instead of entire servers that are idle most of the time). Think of it as a super-efficient, scalable, and managed service that handles all the heavy lifting of building and testing your applications.
+
+Continuous Integration is like having a quality control checkpoint that automatically kicks in whenever anyone on your team makes changes to your code. Instead of waiting until the end of a project to discover that something broke, CI helps you catch and fix issues early and often. CI helps you constantly check that everything still works as expected - running tests, compiling code, and making sure new changes play nicely with the existing codebase.
+
+Default project: This is your standard option that most teams use. It's perfect when you want to manage your entire build process within AWS. You get full control over how your build runs, what goes in, and what comes out - all without leaving the AWS ecosystem.
+
+
+
+Runner project: This option is for teams who already have CI systems like GitHub Actions or GitLab CI but want to tap into the power of CodeBuild's build environment. It's like having CodeBuild do the heavy lifting while your existing CI system orchestrates the overall process.
+
+💡 Why did we pick on-demand?
+Provisioning model determines how AWS will set up and manage everything needed for your build. Choosing On-demand means AWS will create the resources you need for your build only when you start it, and tear them down when the build is done. This is cost-effective and efficient!
+
+
+
+
+
+Reserved capacity gives you dedicated build resources always at your disposal. It costs more overall but gives you consistent performance and no wait times. Great for teams that are building constantly throughout the day. If on-demand is like ordering a taxi, reserved capacity is like renting your own car that you can access anytime you need it.
+
+Environment image is like a template for your build environment (just like how AMI's are templates for your EC2 instances). In more technical terms, environment images are pre-configured versions of the build environment so you won't need to install all the software/tools/settings required to build a project. We choose Managed image here, which means we're using a template that AWS has already created for us. The next few settings we pick underneath this will then tell CodeBuild what kind of image we're looking for.
+
+Custom image lets you bring your own Docker image with exactly the tools and configurations your project needs. It's like designing your own custom workspace from scratch - more work to set up, but perfectly tailored to your specific requirements.
+Compute sets up the servers that will actually run the commands and do the work for your project's build! Your project's build will run on Amazon EC2 instances, which are more flexible and powerful than AWS Lambda functions.
+
+Note: Lambda is optimized for speed and faster startup times. Our web app is fairly simple and doesn't require a lot of resources, but it's also built in Java Corretto 8, which is a language that's not supported by Lambda.
+
+The buildspec.yml file is like a detailed instruction manual for CodeBuild. Placed in the root of your repository, it tells CodeBuild exactly what to do at each stage of the build process - what tools to install, what commands to run, and what files to package up when it's done.
+
+CodeBuild automatically looks for a file named buildspec.yml in the root directory of your source code. If it finds one, it uses it to execute the build. If not, the build will fail (as we'll see later) 👀
