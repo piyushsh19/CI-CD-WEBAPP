@@ -196,3 +196,58 @@ Note: Lambda is optimized for speed and faster startup times. Our web app is fai
 The buildspec.yml file is like a detailed instruction manual for CodeBuild. Placed in the root of your repository, it tells CodeBuild exactly what to do at each stage of the build process - what tools to install, what commands to run, and what files to package up when it's done.
 
 CodeBuild automatically looks for a file named buildspec.yml in the root directory of your source code. If it finds one, it uses it to execute the build. If not, the build will fail (as we'll see later) 👀
+
+Day 5
+
+✅ VS Code and GitHub and to write and store your web app's code.
+
+
+
+✅ CodeArtifact to secure web app's packages.
+
+
+
+✅ CodeBuild to compile and package your app into a handy WAR file for deployment.
+
+
+
+⏭️ Now, AWS CodeDeploy is here to deploy that file on web servers, so users can see your web app!
+
+
+
+Get ready to:
+
+
+
+
+
+☁️ Launch a deployment environment using AWS CloudFormation.
+
+
+
+⚙️ Write deployment scripts to automate deployment commands.
+
+
+
+🚀 Deploy your web app with CodeDeploy and see it live!
+
+
+
+💎 Implement a disaster recovery technique - roll back a deployment!
+
+
+
+💡 Why am I learning about AWS CodeDeploy?
+When you're developing software, you need a reliable way to release new versions of your app to the world.
+
+AWS CodeDeploy is a continuous deployment service, which means it automates how you get new software versions onto your servers. Instead of manually moving files and restarting services yourself, CodeDeploy automatically runs a deployment using settings and commands that you define.
+
+As part of a CI/CD pipeline, CodeDeploy makes software releases faster, more consistent, and way less stressful.
+
+
+💡 What is AWS CloudFormation?
+Think of CloudFormation is AWS' infrastructure as code tool. Instead of clicking around the AWS console to set up resources (which gets tedious fast!), you write a single template file that describes everything you need - your EC2 instances, security groups, databases, and more. Then, CloudFormation reads this file and builds your entire environment for you, exactly the same way every time.
+
+
+💡 What is Infrastructure as Code?
+Just like software developers write code to build applications, Infrastructure as Code (IaC) is a type of software that lets you write code to create your servers, networks, and other infrastructure. Instead of manually configuring each server (time-consuming and error-prone), you have a script that sets everything up perfectly every time. Your infrastructure becomes predictable, repeatable, and much easier to manage!

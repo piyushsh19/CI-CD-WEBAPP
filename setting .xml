@@ -1,0 +1,32 @@
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+    <server>
+        <id>nextwork-nextwork-devops-cicd</id>
+        <username>aws</username>
+        <password>${env.CODEARTIFACT_AUTH_TOKEN}</password>
+    </server>
+</servers>                          
+
+    <profiles>
+        <profile>
+            <id>nextwork-nextwork-devops-cicd</id>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>nextwork-nextwork-devops-cicd</id>
+                    <url>https://nextwork-471112976395.d.codeartifact.us-west-2.amazonaws.com/maven/nextwork-devops-cicd/</url>
+                </repository>
+            </repositories>
+
+        </profile>
+    </profiles>
+
+</settings>
