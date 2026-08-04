@@ -251,3 +251,106 @@ Think of CloudFormation is AWS' infrastructure as code tool. Instead of clicking
 
 💡 What is Infrastructure as Code?
 Just like software developers write code to build applications, Infrastructure as Code (IaC) is a type of software that lets you write code to create your servers, networks, and other infrastructure. Instead of manually configuring each server (time-consuming and error-prone), you have a script that sets everything up perfectly every time. Your infrastructure becomes predictable, repeatable, and much easier to manage!
+
+What are Stack failure options?
+Stack failure options are your safety net when things don't go as planned. They determine what CloudFormation should do if it runs into an error while creating your resources:
+
+
+
+
+
+Roll back all stack resources: This is like having an "undo" button for your entire deployment. If anything fails, CloudFormation will automatically revert everything back to how it was before you started. This prevents you from ending up with a half-built environment that might not work or cost you money unnecessarily.
+
+
+
+Delete all newly created resources: This makes sure CloudFormation cleans up after itself during a rollback. No resources left behind to surprise you on your bill next month!
+
+IAM roles are like special visitor passes that AWS services can "wear" to temporarily access other services. In our case, our deployment EC2 instance will use a role to access files from S3.
+
+Hmmm... why do you think it'll need access to S3 (have you created an S3 bucket anywhere)? Aha - your deployment environment will need to use the build artifacts stored in your S3 bucket!
+
+💡 What resources are being created by the CloudFormation template?
+The CloudFormation template is creating a:
+
+
+
+
+
+VPC (Virtual Private Cloud): A virtual network in the cloud for your AWS resources.
+
+
+
+Subnet: A subdivision of the VPC where you can place resources.
+
+
+
+Route Tables: Define how network traffic is routed within the VPC.
+
+
+
+Internet Gateway: Allows resources in your VPC to connect to the internet.
+
+
+
+Security Group: Acts as a virtual firewall to control inbound and outbound traffic for your EC2 instance.
+
+
+
+EC2 Instance: The virtual server where your web application will be deployed.
+
+
+💡 Why are we deploying networking resources too?
+By defining these networking resources in the template, we're not just launching an EC2 instance, but creating a complete, secure, and configurable infrastructure that can be easily replicated or modified. This is an especially good idea for EC2 instances that are hosting web apps, because they have more complex needs like connecting with multiple databases and controlling both public and private network traffic.
+
+💡 What does each section in appspec.yml mean?
+The appspec.yml file is essentially the instruction manual for CodeDeploy. Here's what each part does:
+
+
+
+
+
+version: 0.0: This is just the format version CodeDeploy expects (yes, starting at 0.0 is a bit odd).
+
+
+
+os: linux: Tells CodeDeploy we're deploying to a Linux system, not Windows.
+
+
+
+files: This section maps what files go where:
+
+
+
+
+
+source: /target/nextwork-web-project.war: "Take this WAR file from our artifact..."
+
+
+
+destination: /usr/share/tomcat10/webapps/: "...and put it here on the EC2 instance."
+
+
+
+hooks: These are like event triggers that run at specific points in the deployment:
+
+
+
+
+
+BeforeInstall: "Before you install the new version, run this script" - we're stopping the server first.
+
+
+
+AfterInstall: "After the files are copied, run this" - we're installing dependencies.
+
+
+
+ApplicationStart: "Once everything's ready, run this" - we're starting the server.
+
+
+
+Each hook specifies the script location, a timeout (5 minutes max), and that it should run as the root user.
+
+
+Think of appspec.yml as the choreographer that ensures everyone moves in the right sequence during deployment.
+
