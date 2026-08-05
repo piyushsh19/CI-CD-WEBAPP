@@ -150,3 +150,41 @@ Targeting: CodeDeploy uses EC2 Tags (e.g., role: webserver) to locate the exact 
 CodeDeploy Agent: Software running on the EC2 instance that receives and executes instructions from CodeDeploy. (Should be configured to auto-update every 14 days).
 
 Deployment Speed: CodeDeployDefault.AllAtOnce updates every instance simultaneously. It is the fastest route but carries the highest risk if the deployment is faulty.
+
+CodeDeploy's compute platforms are basically the different types of environments where your application can live:
+
+
+
+Day 5
+
+EC2/On-premises: This is for traditional server-based applications - like what we're doing in this project. Your app runs on actual servers (either in AWS or in your own data center).
+
+AWS Lambda: This is for serverless applications where you don't manage any servers. Your code just runs when triggered, and AWS handles all the infrastructure.
+
+Amazon ECS: This is for containerized applications running in Docker containers managed by Amazon's Elastic Container Service.
+
+The revision location is the place where CodeDeploy looks to find your application's build artifacts. We're using the S3 bucket that's storing our WAR file, so CodeDeploy knows where to find the latest version of our web app it's deploying to the deployment EC2 instances!
+
+CodePipeline solves these problems by orchestrating your entire workflow, and giving you visibility into the entire process in one place. It can:
+
+✅ Automatically detect code changes in your GitHub repository.
+✅ Automatically trigger CodeBuild to build a new project.
+✅ Automatically start CodeDeploy with the new build artifacts.
+✅ Automatically roll back a change if something fails.
+
+Amazon EC2 (Elastic Compute Cloud) gives you virtual servers in the cloud that you can spin up whenever you need them. Think of it like renting computers in AWS's data centers that you can configure and use without having to worry about the physical hardware.
+
+For this project, we're using EC2 as both the place where we'll deploy our application and the environment where we'll build it initially. It's perfect for this because you can easily SSH into it to make changes and see your application running in real-time.
+
+The Source stage is the very first step in any CI/CD pipeline. Its job is simple but crucial: it fetches the latest version of your code from your chosen repository whenever there are updates. Without this stage, your pipeline would have nothing to build or deploy.
+
+CodePipeline supports various source providers, but for this project, we're using GitHub because that's where our web app's code is stored.
+
+💡 What are Webhook events?
+Webhook events let CodePipeline automatically start your pipeline whenever code is pushed to your specified branch in GitHub. This is what makes our pipeline truly "continuous" – it reacts to code changes in real-time!
+
+
+💡 How do Webhooks work?
+Webhooks are like digital notifications. When you enable webhook events, CodePipeline sets up a webhook in your GitHub repository. This webhook is configured to listen for specific events, such as code pushes to the master branch.
+
+Whenever you push code to the master branch, GitHub sends a webhook event (a notification) to CodePipeline. CodePipeline then automatically starts a new pipeline execution in response to this event. It's a seamless way to automate your CI/CD process!
